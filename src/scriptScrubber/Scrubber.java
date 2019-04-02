@@ -1,42 +1,52 @@
 /*
  * Muhammed Sabri Sahin
- * 01.04.2019
+ * 03.04.2019
  * 
- * simple <script>...</script> block remover
+ * Simple <script>...</script> block remover with JavaFX
  * 
  */
 
 package scriptScrubber;
 
-public class Scrubber {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class Scrubber extends Application {
+	
+	static final String openTag = "<script";
+	static final String closeTag = "</script>";
 	
 	public static String scrub(String text) {
 		if(text == null) return "";
 		
 		String scrubbedText = text;
 		
-		String openTag = "<script";
-		String closeTag = "</script>";
-		
-		for(int start = scrubbedText.indexOf(openTag); start != -1; start = scrubbedText.indexOf(openTag)) {
-			int end = scrubbedText.indexOf(closeTag) + closeTag.length();
-			scrubbedText = scrubbedText.replace(scrubbedText.substring(start, end), "");			
+		for(int start = scrubbedText.indexOf(openTag), end = scrubbedText.indexOf(closeTag) + closeTag.length();
+				start >= 0 && end >= (start + openTag.length() + closeTag.length());
+				start = scrubbedText.indexOf(openTag), end = scrubbedText.indexOf(closeTag) + closeTag.length()) {
+				scrubbedText = scrubbedText.replace(scrubbedText.substring(start, end), "");
 		}
-		
+
 		return scrubbedText;
 	}
 
-	// example input
 	public static void main(String args[]) {
-		String text = " Maecenas pulvinar enim tortor, ac gravida tortor molestie vitae."
-				+ "Interdum et malesuada fames ac ante ipsum primis in faucibus.  In ac imperdiet mi.\n"
-				+ "\nVestibulum mollis, leo <script>et eleifend venenatis\n\n, metus libero fermentum turpis,"
-				+ "vitae dignissim quam dui quis lorem.</script> Maecenas et egestas enim. Ut pharetra ipsum ac\n "
-				+ "risus laoreet iaculis. Integer vitae\n iaculis neque. Integer sapien " 
-				+ "risus, auctor et laoreet id, bibendum vehicula sapien.\n In commodo "
-				+ "turpis ac ipsum<script> egestas lobortis.</script>"
-				+ "Pellentesque quis diam sapien. Donec quis purus non purus mattis pulvinar sed id arcu.";
-		
-		System.out.println(Scrubber.scrub(text));
+		launch(args);
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		VBox root = (VBox) FXMLLoader.load(getClass().getResource("SGUI.fxml"));
+		// Create the Scene
+        Scene scene = new Scene(root,800,400);
+        // Set the Title to the Stage
+        primaryStage.setTitle("Script Scrubber v1.0");
+        // Add the Scene to the Stage
+        primaryStage.setScene(scene);
+        // Show the Stage
+        primaryStage.show();
 	}
 }

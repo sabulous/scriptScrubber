@@ -1,0 +1,25 @@
+package scriptScrubber
+
+import javafx.scene.layout.BorderPane
+import javafx.scene.control.Button
+import javafx.scene.layout.VBox
+import javafx.scene.control.TextArea
+import javafx.scene.layout.Pane
+import javafx.scene.layout.HBox
+import scriptScrubber.GUIController
+import javafx.scene.control.TitledPane
+import javafx.scene.control.Accordion
+import javafx.scene.control.Label
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.FlowPane
+
+component SGUI controlledby GUIController {
+	VBox id rootContainer {
+		TextArea id inputArea,
+		Label id outputLabel
+		{
+			text : "Sanitized Output :"
+		},
+		TextArea id outputArea
+	}
+}
